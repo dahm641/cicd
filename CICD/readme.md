@@ -100,3 +100,5 @@ It is adopted after the coding stage and automates the process of build, test an
 3. Paste in your jenkins server URL and add `github-webook/` at the end, choose push and choose active.
 ![img_25.png](img_25.png)
 4. Test by pushing something to the repo and seeing if it triggers a new build
+![img_28.png](img_28.png)
+![img_29.png](img_29.png)
