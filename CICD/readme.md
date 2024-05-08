@@ -14,11 +14,11 @@
 ## Why
 - It allows companies to deliver value to the end customer at a much faster rate
 - Improves efficiency of development
-- Gives them a competitve edge as they can easily stay up to date on latest technologies and market trends and new features can be added to an application rapidly using a CI/CD pipeline. 
+- Gives them a competitive edge as they can easily stay up to date on latest technologies and market trends and new features can be added to an application rapidly using a CI/CD pipeline. 
 - Enables faster delivery of products and services than competitors
 - It has less man hours involved which can save the company time as well - reduced operational costs
 - Saves the company money by having lses resources needed for development since the process is automated
-- CI provdies immediate feedback so can improve/fix code quicker
+- CI provides immediate feedback so can improve/fix code quicker
 - Smaller code segments so also quicker to fix
 - Increased velocity
 - Better team morale working on iterative changes and seeing them in action
