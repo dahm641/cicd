@@ -27,9 +27,9 @@
 ## How
 - Using a number of different tools.
 - For example, pushing the code to GitHub, then Jenkins pulling that code to test it and build it and deploy it on AWS EC2 instance.
-![img_3.png](Images/img_3.png)
-- At each stage we can see if it passes the automation and if not we can change the code so that it works and feed it back into the pipeline
-- ![img_2.png](Images/img_2.png)
+![img_3.png](Images/img_3.png) <br><br>
+- At each stage we can see if it passes the automation and if not we can change the code so that it works and feed it back into the pipeline <br><br>
+![img_2.png](Images/img_2.png) <br><br>
 - We have unit tests to see if the code is good and then integration tests to see if the code works with our app code.
 - Use a webhook to trigger 
 
