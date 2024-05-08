@@ -3,9 +3,9 @@
 - It automates some stages of the SLDC such as building, testing and deploying code. 
 - As soon as a developer finishes a piece of code whether that be a new feature or bug fix, they can send it through a pipeline which will not only build their code into the main application, but also test it to ensure it works as expected and works with the rest of the main code. 
 - Using automation not only speeds up the process, it minimizes human error and is a standard and consistent process.
-- Continuous integration is a fully automated build and test process to ensure what you have developed will work or not
-- Continuous delivery is when new code gets built, tested and is ready to deploy. It is delivered to you but you still have to **manually** deploy it.
-- Continuous deployment is where the entire process is completed for you automatically.
+- Continuous integration is a fully automated build and test process to ensure what you have developed will work or not and will build it so that you can then release it.
+- Continuous delivery is when new code gets built, tested and is ready to deploy. It is delivered to you but you still have to **manually** trigger the deployment. It will then automatically deploy it for you once you tell it to.
+- Continuous deployment is where the entire process is completed for you automatically from build to deployment.
 
 ![img_1.png](Images/img_1.png)
 
@@ -31,16 +31,16 @@
 - At each stage we can see if it passes the automation and if not we can change the code so that it works and feed it back into the pipeline <br><br>
 ![img_2.png](Images/img_2.png) <br><br>
 - We have unit tests to see if the code is good and then integration tests to see if the code works with our app code.
-- Use a webhook to trigger 
+- Use of webhooks to trigger the pipelines 
 
 
 
 
 ## Where
-Any time software is being deployed, updates are being made, infrastructure is being changed, security is being added, any time when code is written that integrates or adds value to the application, having a pipeline will speed up and reliably deploy that code
+Any time software is being deployed, updates are being made, infrastructure as code is being changed, security is being added, any time when code is written that integrates or adds value to the application, having a pipeline will increase speed at which its deployed and also reliably deploy that code.
 
 # When
-It is adopted after the coding stage and automates the process of build, test and deploy so that code being developed can be deployed to the main application seamlessly and without needing human intervention. 
+It is adopted after the coding stage and automates the process of build, test and deploy so that code being developed can be deployed to the main application seamlessly and without needing human intervention, as long as it passes the testing. If not it tells you almost instantly so you can work on fixing it. 
 
 # Using Jenkins and GitHub
 
