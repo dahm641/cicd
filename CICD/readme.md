@@ -4,7 +4,7 @@
 - As soon as a developer finishes a piece of code whether that be a new feature or bug fix, they can send it through a pipeline which will not only build their code into the main application, but also test it to ensure it works as expected and works with the rest of the main code. 
 - Using automation not only speeds up the process, it minimizes human error and is a standard and consistent process.
 - Continuous integration is a fully automated build and test process to ensure what you have developed will work or not
-- Continuous delivery is when new code gets built, tested and is ready to deploy. It is delivered to you and you hae to **manually* deploy it.
+- Continuous delivery is when new code gets built, tested and is ready to deploy. It is delivered to you but you still have to **manually** deploy it.
 - Continuous deployment is where the entire process is completed for you automatically.
 
 ![img_1.png](Images/img_1.png)
