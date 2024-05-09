@@ -117,16 +117,24 @@ It is adopted after the coding stage and automates the process of build, test an
 
 ## CD with Jenkins
 
+![img_1.png](img_1.png)
+
 To make a CD pipeline with Jenkins, we need to automate certain steps using triggers. This could be webhooks or from jenkins builds being completed.
 
 ### Step 1
 
-1. Firstly create a new branch on the github repo.
+1. Firstly create a new branch on the github repo. `git checkout -b dev`
 ![img.png](img.png)
+2. Push the dev branch so that its in our repo `git push -u origin dev`
 
-2. once we push a change it should automatically merge this with the main branch so we have to set up a job to do that. Would do this by setting a webhook for the dev branch 
+3. once we push a change it should automatically merge this with the main branch so we have to set up a job to do that.
+#### Job 1
+4. Create a job to test the push on the dev branch. When something gets pushed a job gets triggered to test the code. Same as CI steps before
+5. If successful then use a post build action to start a new job to merge the branches
+#### Job 2 & 3
+6. Job to do this would be using the main branch and using `git merge dev` and then `git push -u origin main`
 
-3. Once its been merged it should run a test again to see its all working correctly
+7. Once its been merged it should trigger a test again to see its all working correctly which is what was set up in the CI pipeline earlier
 
 ### Step 2
 
@@ -134,12 +142,20 @@ Once its done this it needs to get pushed to production.
 
 1. Create an EC2 instance in AWS with Ubuntu 18.04
 2. Configure the security groups to allow port 22, 3000, 80 and 8080 to allow for jenkins to SSH into the instance
-3. Create a job that SSH into the instance and copies the new code to this production server
+#### Job 4
+3. Create a job that SSH into the instance and copies the new code to this production server. Use pem file that is uploaded to jenkins.
 4. Check the job has completed by manually SSH into the server and see if the files are there
 
-### Step 3
+
+### Step 3 (Delivery)
 
 1. Install the required depeendencies
 2. Navigate to the app folder and start the app
+
+### Step 3 (Deployment)
+
+#### Job 5
+
+1. Run a job to autmatically start the app in the background after all other checks have been passed
 
 
