@@ -33,13 +33,25 @@
 - We have unit tests to see if the code is good and then integration tests to see if the code works with our app code.
 - Use of webhooks to trigger the pipelines 
 
+### CI
 
+Once code is pushed it gets built and tested automatically. It either passes the pipeline once its passed the tests and is ready for deployment, or its sent back to fix some issues that didnt meet the testing requirements
+### CD
 
+Once the code has been tested, it can be either conitinously delivered, meaning we have to deploy it ourselves manually. This could be good for larger codes where we want to ensure everything is working how it should.
+Or it can be continiously deployed where each change gets deployed automatically.
+
+## Webhooks and nodes
+
+- Webhooks are triggers to automate a series of tasks. This is useful in a pipeline because we want to automate things when a certain action is completed
+- For example, on Amazon, when you order an item, it triggers an event to send you an email automatically. <br><br>
+- A node is an instance that is created for running our different builds. 
+- We can have a master node for production and maybe other nodes for testing to help separate environments and see error logs.
 
 ## Where
 Any time software is being deployed, updates are being made, infrastructure as code is being changed, security is being added, any time when code is written that integrates or adds value to the application, having a pipeline will increase speed at which its deployed and also reliably deploy that code.
 
-# When
+## When
 It is adopted after the coding stage and automates the process of build, test and deploy so that code being developed can be deployed to the main application seamlessly and without needing human intervention, as long as it passes the testing. If not it tells you almost instantly so you can work on fixing it. 
 
 # Using Jenkins and GitHub
@@ -102,3 +114,32 @@ It is adopted after the coding stage and automates the process of build, test an
 4. Test by pushing something to the repo and seeing it it triggers a new build <br><br>
 ![img_28.png](Images/img_28.png) <br><br>
 ![img_29.png](Images/img_29.png) <br><br>
+
+## CD with Jenkins
+
+To make a CD pipeline with Jenkins, we need to automate certain steps using triggers. This could be webhooks or from jenkins builds being completed.
+
+### Step 1
+
+1. Firstly create a new branch on the github repo.
+![img.png](img.png)
+
+2. once we push a change it should automatically merge this with the main branch so we have to set up a job to do that. Would do this by setting a webhook for the dev branch 
+
+3. Once its been merged it should run a test again to see its all working correctly
+
+### Step 2
+
+Once its done this it needs to get pushed to production.
+
+1. Create an EC2 instance in AWS with Ubuntu 18.04
+2. Configure the security groups to allow port 22, 3000, 80 and 8080 to allow for jenkins to SSH into the instance
+3. Create a job that SSH into the instance and copies the new code to this production server
+4. Check the job has completed by manually SSH into the server and see if the files are there
+
+### Step 3
+
+1. Install the required depeendencies
+2. Navigate to the app folder and start the app
+
+
