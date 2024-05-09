@@ -129,12 +129,12 @@ To make a CD pipeline with Jenkins, we need to automate certain steps using trig
 
 3. once we push a change it should automatically merge this with the main branch so we have to set up a job to do that.
 #### Job 1
-4. Create a job to test the push on the dev branch. When something gets pushed a job gets triggered to test the code. Same as CI steps before
-5. If successful then use a post build action to start a new job to merge the branches
+   1. Create a job to test the push on the dev branch. When something gets pushed a job gets triggered to test the code. Same as CI steps before
+         1. If successful then use a post build action to start a new job to merge the branches
 #### Job 2 & 3
-6. Job to do this would be using the main branch and using `git merge dev` and then `git push -u origin main`
+1. Job to do this would be using the main branch and using `git merge dev` and then `git push -u origin main`
 
-7. Once its been merged it should trigger a test again to see its all working correctly which is what was set up in the CI pipeline earlier
+2. Once its been merged it should trigger the test job to see its all working correctly which is what was set up in the CI pipeline earlier. This is a test job for the main branch
 
 ### Step 2
 
@@ -143,8 +143,8 @@ Once its done this it needs to get pushed to production.
 1. Create an EC2 instance in AWS with Ubuntu 18.04
 2. Configure the security groups to allow port 22, 3000, 80 and 8080 to allow for jenkins to SSH into the instance
 #### Job 4
-3. Create a job that SSH into the instance and copies the new code to this production server. Use pem file that is uploaded to jenkins.
-4. Check the job has completed by manually SSH into the server and see if the files are there
+   1. Create a job that SSH into the instance and copies the new code to this production server. Use pem file that is uploaded to jenkins.
+      1. Check the job has completed by manually SSH into the server and see if the files are there
 
 
 ### Step 3 (Delivery)
