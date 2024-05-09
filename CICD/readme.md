@@ -135,43 +135,43 @@ It is adopted after the coding stage and automates the process of build, test an
 
 ## CD with Jenkins
 
-![img_1.png](Images/images_jobs/img_1.png)
+![img_1.png](Images/images_jobs/img_1.png)  <br><br>
 
 To make a CD pipeline with Jenkins, we need to automate certain steps using triggers. This could be webhooks or from jenkins builds being completed. We need to add the jobs to merge the code. We are using a new branch so creating that will be the first step.
 
 ### Step 1
 
 1. Firstly create a new branch on the github repo. `git checkout -b dev`
-![img.png](Images/images_jobs/img.png)
+![img.png](Images/images_jobs/img.png) <br><br>
 2. Push the dev branch so that its in our repo `git push -u origin dev`
-![img_4.png](Images/images_jobs/img_4.png)
+![img_4.png](Images/images_jobs/img_4.png) <br><br>
 
-3. once we push a change it should automatically merge this with the main branch so we have to set up a job to do that.
+3. once we push a change it should automatically merge this with the main branch so we have to set up a job to do that. <br><br>
 #### Job 1
    1. Create a job to test the push on the dev branch. When something gets pushed a job gets triggered to test the code. Same as CI steps before
     
-         1. If successful then use a post build action to start a new job to merge the branches (need to set up next job before you can choose this so come back to it after)
-        ![img_3.png](Images/images_jobs/img_3.png)
+         1. If successful then use a post build action to start a new job to merge the branches (need to set up next job before you can choose this so come back to it after) <br><br>
+        ![img_3.png](Images/images_jobs/img_3.png) <br><br>
 #### Job 2 
 1. Job to do this would be using the main branch and using `git merge dev` and then `git push -u origin main`
-2. A better way would be to not rely on having git commands and use Jenkins to do this for us.
+2. A better way would be to not rely on having git commands and use Jenkins to do this for us. <br><br>
 
-**To set this up using jenkins follow the steps below:**
+**To set this up using jenkins follow the steps below:** <br><br>
 
 1. Similar to above, create a new item in jenkins
 2. Choose freestyle and give a name
-3. Give a description, choose github project and paste in your HTTPS URL
-![img_5.png](Images/images_jobs/img_5.png)
-4. Restrict it to the node we want to use
-![img_6.png](Images/images_jobs/img_6.png)
+3. Give a description, choose github project and paste in your HTTPS URL <br><br>
+![img_5.png](Images/images_jobs/img_5.png) <br><br>
+4. Restrict it to the node we want to use <br><br>
+![img_6.png](Images/images_jobs/img_6.png) <br><br>
 5. Choose Git for source code management and add additional behaviours.
 6. Choose the branch `*/dev` name as `origin` and then branch to merge to as `main`
     - This will tell Jenkins to try merging dev branch to main branch to see if it works before building it <br><br>
-![img_7.png](Images/images_jobs/img_7.png)
-7. Choose node and npm for build environment
-![img_8.png](Images/images_jobs/img_8.png)
-8. For post build actions choose Git publisher and choose merge and only if build succeeds 
-![img_9.png](Images/images_jobs/img_9.png)
+![img_7.png](Images/images_jobs/img_7.png) <br><br>
+7. Choose node and npm for build environment <br><br>
+![img_8.png](Images/images_jobs/img_8.png) <br><br>
+8. For post build actions choose Git publisher and choose merge and only if build succeeds  <br><br>
+![img_9.png](Images/images_jobs/img_9.png) <br><br>
 
 
 ### Step 2
