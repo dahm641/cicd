@@ -1,4 +1,19 @@
-# What is a CI/CD pipeline
+# Using Jenkins and GitHub
+
+# Creating a CI/CD pipeline
+
+- We want to create a simple pipeline for CI and CD
+- Using a code located in a GitHub repository
+- Want to push our code to GitHub in one branch
+- Automatic test, merge, deploy
+  - First job we need to do this is one that will automatically test our code as soon as it gets pushed
+    - Achievable by using GitHub webhook trigger to trigger jenkins to start a job to test the code whenever anything gets pushed
+  - Second Job then triggers after successful first job and merges this code with our main branch, so we can deploy it to production.
+  - Third job will trigger after second job is successful and deploy code to an ec2 instance
+- If any test fails it will alert us, so we can fix it and the pipeline will exit
+![img_2.png](Images/images_jobs/img_2.png)
+
+## What is a CI/CD pipeline
 - Continuous integration and continuous deployment pipeline. It is a series of automated steps that help to deliver new pieces of software/applications at at a fast rate. 
 - It automates some stages of the SLDC such as building, testing and deploying code. 
 - As soon as a developer finishes a piece of code whether that be a new feature or bug fix, they can send it through a pipeline which will not only build their code into the main application, but also test it to ensure it works as expected and works with the rest of the main code. 
@@ -54,9 +69,12 @@ Any time software is being deployed, updates are being made, infrastructure as c
 ## When
 It is adopted after the coding stage and automates the process of build, test and deploy so that code being developed can be deployed to the main application seamlessly and without needing human intervention, as long as it passes the testing. If not it tells you almost instantly so you can work on fixing it. 
 
-# Using Jenkins and GitHub
 
-## Create our own CI pipeline with jenkins and GitHub
+
+## Create our testing job (CI Pipeline)
+
+- This job was created in jenkins that will test our app that is on Github
+- It is using the main branch but can be used for any branch (see below on CD pipeline where this is changed to a dev branch)
 
 ![img_4.png](Images/img_4.png)
 
@@ -117,24 +135,44 @@ It is adopted after the coding stage and automates the process of build, test an
 
 ## CD with Jenkins
 
-![img_1.png](img_1.png)
+![img_1.png](Images/images_jobs/img_1.png)
 
-To make a CD pipeline with Jenkins, we need to automate certain steps using triggers. This could be webhooks or from jenkins builds being completed.
+To make a CD pipeline with Jenkins, we need to automate certain steps using triggers. This could be webhooks or from jenkins builds being completed. We need to add the jobs to merge the code. We are using a new branch so creating that will be the first step.
 
 ### Step 1
 
 1. Firstly create a new branch on the github repo. `git checkout -b dev`
-![img.png](img.png)
+![img.png](Images/images_jobs/img.png)
 2. Push the dev branch so that its in our repo `git push -u origin dev`
+![img_4.png](Images/images_jobs/img_4.png)
 
 3. once we push a change it should automatically merge this with the main branch so we have to set up a job to do that.
 #### Job 1
    1. Create a job to test the push on the dev branch. When something gets pushed a job gets triggered to test the code. Same as CI steps before
-         1. If successful then use a post build action to start a new job to merge the branches
-#### Job 2 & 3
+    
+         1. If successful then use a post build action to start a new job to merge the branches (need to set up next job before you can choose this so come back to it after)
+        ![img_3.png](Images/images_jobs/img_3.png)
+#### Job 2 
 1. Job to do this would be using the main branch and using `git merge dev` and then `git push -u origin main`
+2. A better way would be to not rely on having git commands and use Jenkins to do this for us.
 
-2. Once its been merged it should trigger the test job to see its all working correctly which is what was set up in the CI pipeline earlier. This is a test job for the main branch
+**To set this up using jenkins follow the steps below:**
+
+1. Similar to above, create a new item in jenkins
+2. Choose freestyle and give a name
+3. Give a description, choose github project and paste in your HTTPS URL
+![img_5.png](Images/images_jobs/img_5.png)
+4. Restrict it to the node we want to use
+![img_6.png](Images/images_jobs/img_6.png)
+5. Choose Git for source code management and add additional behaviours.
+6. Choose the branch `*/dev` name as `origin` and then branch to merge to as `main`
+    - This will tell Jenkins to try merging dev branch to main branch to see if it works before building it <br><br>
+![img_7.png](Images/images_jobs/img_7.png)
+7. Choose node and npm for build environment
+![img_8.png](Images/images_jobs/img_8.png)
+8. For post build actions choose Git publisher and choose merge and only if build succeeds 
+![img_9.png](Images/images_jobs/img_9.png)
+
 
 ### Step 2
 
@@ -142,20 +180,20 @@ Once its done this it needs to get pushed to production.
 
 1. Create an EC2 instance in AWS with Ubuntu 18.04
 2. Configure the security groups to allow port 22, 3000, 80 and 8080 to allow for jenkins to SSH into the instance
-#### Job 4
+#### Job 3
    1. Create a job that SSH into the instance and copies the new code to this production server. Use pem file that is uploaded to jenkins.
       1. Check the job has completed by manually SSH into the server and see if the files are there
 
 
 ### Step 3 (Delivery)
 
-1. Install the required depeendencies
+1. Install the required dependencies
 2. Navigate to the app folder and start the app
 
 ### Step 3 (Deployment)
 
-#### Job 5
+#### Job 4
 
-1. Run a job to autmatically start the app in the background after all other checks have been passed
+1. Run a job to automatically start the app in the background after all other checks have been passed
 
 
