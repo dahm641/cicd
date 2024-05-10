@@ -35,6 +35,7 @@ sudo apt-get install nodejs -y
 
 export DB_HOST=mongodb://172.31.38.216:27017/posts
 sudo npm install -g npm@latest
+sudo npm audit fix --force
 sudo npm install -g pm2
 #sudo apt-get install nginx -y
 
