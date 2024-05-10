@@ -180,64 +180,91 @@ Once its done this it needs to get pushed to production.
 
 1. Create an EC2 instance in AWS with Ubuntu 18.04
 2. Configure the security groups to allow port 22, 3000, 80 and 8080 to allow for jenkins to SSH into the instance
-#### Job 3
-   1. Create a job that SSH into the instance and copies the new code to this production server. Use pem file that is uploaded to jenkins.
-      1. Check the job has completed by manually SSH into the server and see if the files are there
-
-
 
 
 
 ### Step 3 (Deployment)
-1. Run a job to automatically start the app in the background after all other checks have been passed
+1. Run a job to move the new files to the app folder, install everything and get it running automatically. start the app in the background after all other checks have been passed.
 
-#### Job 4
+#### Job 3
+1. Needs to copy the new data across from the main branch
+2. Needs to SSH in without input to run commands
+3. Needs to run update and upgrade commands
+4. Install and run nginx
+5. Go to the app folder
+6. Install dependencies (can run a script available in main branch) 
+7. start the app in the background
+8. Need to go to app folder before installing dependencies or make them global
 
-1. by pass key checking step input and ssh into ec2 
-   - `ssh -o StrictHostKeyChecking=no ubuntu@54.194.253.91 <<EOF`
-      - `<<EOF` Starts a script and is needed otherwise it gets confused and throws an error. **NEED ANOTHER `EOF` AT END OF SCRIPT**
-2. run update and upgrade
-   - `sudo apt-get update -y` 
-   - `sudo apt-get upgrade -y`
-3. install nginx
-   - `sudo apt-get install nginx -y`
+We can do this from Jenkins, however its best to write a script that we can just tell jenkins to run.
 
+In our GitHub repository, we have a file called provisions.sh which can run to install many things we need rather than having to write them out in Jenkins.
+
+You write your script in the execute shell in Jenkins
+
+- `<<EOF` Starts a script and is needed otherwise it gets confused and throws an error. **NEED ANOTHER `EOF` AT END OF SCRIPT**
+
+```
+ssh -o StrictHostKeyChecking=no ubuntu@34.245.95.169 <<EOF
+
+	# run update and upgrade
+	sudo apt-get update -y
+	sudo apt-get upgrade -y
+
+	# install nginx
+	sudo apt-get install nginx -y 
+
+	# visit public ip and see if its running
+	sudo systemctl enable nginx
+
+	
+	# install the required dependicies by running provision.sh
+    sudo chmod +x ~/environment/app/provision.sh
+	sudo bash ./environment/app/provision.sh
+	
+	# navigate to app folder
+	cd app
+
+	# start the app in the background
+	pm2 kill
+	pm2 start app.js
+EOF
+```
+
+Provisions script:
 
 ```bash
-# by pass key checking step input
-# ssh into ec2
-ssh -o StrictHostKeyChecking=no -tt ubuntu@54.194.253.91 <<EOF
-
-# run update and upgrade
+#!/bin/bash
+# go to app folder
+cd app
+# Update the sources list
 sudo apt-get update -y
+
+# upgrade any packages available
 sudo apt-get upgrade -y
 
-# install nginx
-sudo apt-get install nginx -y 
 
-# visit public ip and see if its running
-sudo systemctl enable nginx
+# install git
+sudo apt-get install git -y
 
+# install nodejs
+sudo apt-get install python-software-properties -y
+curl -sL https://deb.nodesource.com/setup_17.x | sudo -E bash -
+sudo apt-get install nodejs -y
 
-# copy new code
-rsync -avz -e "ssh -o StrictHostKeyChecking=no" app ubuntu@54.194.253.91:/home/ubuntu
-rsync -avz -e "ssh -o StrictHostKeyChecking=no" environment ubuntu@54.194.253.91:/home/ubuntu
+# install pm2
+sudo -E npm install
+sudo -E npm install pm2 -g
 
-# navigate to the env folder thenapp folder env/app
-ssh -o StrictHostKeyChecking=no -tt ubuntu@54.194.253.91 <<EOF
+sudo apt-get install nginx -y
 
-# install the required dependicies by running provision.sh
-sudo bash ./environment/aap/provision.sh
-sudo bash ./environment/db/provision.sh
-# navigate to app folder
-cd app
-# install npm
-sudo npm install
-sudo -E npm install -g pm2
-# start the app in the background
-pm2 kill
-pm2 start app.js
-EOF
+# remove the old file and add our one
+#sudo rm /etc/nginx/sites-available/default
+#sudo cp /home/ubuntu/sre_jenkins_cicd/environment/app/nginx.default /etc/nginx/sites-available/default
+
+# finally, restart the nginx service so the new config takes hold
+# sudo service nginx restart
+# sudo service nginx enable
 ```
 
 
