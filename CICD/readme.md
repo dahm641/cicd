@@ -185,15 +185,59 @@ Once its done this it needs to get pushed to production.
       1. Check the job has completed by manually SSH into the server and see if the files are there
 
 
-### Step 3 (Delivery)
 
-1. Install the required dependencies
-2. Navigate to the app folder and start the app
+
 
 ### Step 3 (Deployment)
+1. Run a job to automatically start the app in the background after all other checks have been passed
 
 #### Job 4
 
-1. Run a job to automatically start the app in the background after all other checks have been passed
+1. by pass key checking step input and ssh into ec2 
+   - `ssh -o StrictHostKeyChecking=no ubuntu@54.194.253.91 <<EOF`
+      - `<<EOF` Starts a script and is needed otherwise it gets confused and throws an error. **NEED ANOTHER `EOF` AT END OF SCRIPT**
+2. run update and upgrade
+   - `sudo apt-get update -y` 
+   - `sudo apt-get upgrade -y`
+3. install nginx
+   - `sudo apt-get install nginx -y`
+
+
+```bash
+# by pass key checking step input
+# ssh into ec2
+ssh -o StrictHostKeyChecking=no -tt ubuntu@54.194.253.91 <<EOF
+
+# run update and upgrade
+sudo apt-get update -y
+sudo apt-get upgrade -y
+
+# install nginx
+sudo apt-get install nginx -y 
+
+# visit public ip and see if its running
+sudo systemctl enable nginx
+
+
+# copy new code
+rsync -avz -e "ssh -o StrictHostKeyChecking=no" app ubuntu@54.194.253.91:/home/ubuntu
+rsync -avz -e "ssh -o StrictHostKeyChecking=no" environment ubuntu@54.194.253.91:/home/ubuntu
+
+# navigate to the env folder thenapp folder env/app
+ssh -o StrictHostKeyChecking=no -tt ubuntu@54.194.253.91 <<EOF
+
+# install the required dependicies by running provision.sh
+sudo bash ./environment/aap/provision.sh
+sudo bash ./environment/db/provision.sh
+# navigate to app folder
+cd app
+# install npm
+sudo npm install
+sudo -E npm install -g pm2
+# start the app in the background
+pm2 kill
+pm2 start app.js
+EOF
+```
 
 
