@@ -34,8 +34,8 @@ curl -sL https://deb.nodesource.com/setup_17.x | sudo -E bash -
 sudo apt-get install nodejs -y
 
 export DB_HOST=mongodb://172.31.38.216:27017/posts
-sudo npm install
-sudo npm install pm2 -g
+sudo npm install -g npm@latest
+sudo npm install -g pm2
 #sudo apt-get install nginx -y
 
 # remove the old file and add our one
