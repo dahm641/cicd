@@ -6,8 +6,6 @@ sudo apt-get upgrade -y
 # install nginx
 sudo apt-get install nginx -y 
 
-# move to app folder
-cd app
 
 # Update the sources list
 sudo apt-get update -y
@@ -27,14 +25,13 @@ sudo systemctl restart nginx
 # visit public ip and see if its running
 sudo systemctl enable nginx
 
+# move to app folder
+cd app
+
 # install nodejs
 sudo apt-get install python-software-properties -y
 curl -sL https://deb.nodesource.com/setup_17.x | sudo -E bash -
 sudo apt-get install nodejs -y
-
-# install pm2
-sudo -E npm install
-sudo npm install pm2 -g
 
 
 #sudo apt-get install nginx -y
