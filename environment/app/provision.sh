@@ -1,5 +1,5 @@
 #!/bin/bash
-
+cd app
 # Update the sources list
 sudo apt-get update -y
 
