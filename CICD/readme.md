@@ -205,19 +205,17 @@ You write your script in the execute shell in Jenkins
 - `<<EOF` Starts a script and is needed otherwise it gets confused and throws an error. **NEED ANOTHER `EOF` AT END OF SCRIPT**
 
 ```
-ssh -o StrictHostKeyChecking=no ubuntu@34.245.95.169 <<EOF
+# copy new code
+# set ip variable once to use in script
+EC2_IP=3.254.211.13
+rsync -avz -e "ssh -o StrictHostKeyChecking=no" app ubuntu@$EC2_IP:/home/ubuntu
+rsync -avz -e "ssh -o StrictHostKeyChecking=no" environment ubuntu@$EC2_IP:/home/ubuntu
 
-	# run update and upgrade
-	sudo apt-get update -y
-	sudo apt-get upgrade -y
+# by pass key checking step input
+# ssh into ec2
+ssh -o StrictHostKeyChecking=no ubuntu@$EC2_IP <<EOF
 
-	# install nginx
-	sudo apt-get install nginx -y 
-
-	# visit public ip and see if its running
-	sudo systemctl enable nginx
-
-	
+		
 	# install the required dependicies by running provision.sh
     sudo chmod +x ~/environment/app/provision.sh
 	sudo bash ./environment/app/provision.sh
@@ -235,8 +233,16 @@ Provisions script:
 
 ```bash
 #!/bin/bash
-# go to app folder
+# run update and upgrade
+sudo apt-get update -y
+sudo apt-get upgrade -y
+
+# install nginx
+sudo apt-get install nginx -y 
+
+# move to app folder
 cd app
+
 # Update the sources list
 sudo apt-get update -y
 
@@ -247,6 +253,14 @@ sudo apt-get upgrade -y
 # install git
 sudo apt-get install git -y
 
+# Reverse proxy
+sudo sed -i '51s/.*/\t        proxy_pass http:\/\/localhost:3000;/' /etc/nginx/sites-available/default
+ 
+sudo systemctl restart nginx
+
+# visit public ip and see if its running
+sudo systemctl enable nginx
+
 # install nodejs
 sudo apt-get install python-software-properties -y
 curl -sL https://deb.nodesource.com/setup_17.x | sudo -E bash -
@@ -256,7 +270,8 @@ sudo apt-get install nodejs -y
 sudo -E npm install
 sudo -E npm install pm2 -g
 
-sudo apt-get install nginx -y
+
+#sudo apt-get install nginx -y
 
 # remove the old file and add our one
 #sudo rm /etc/nginx/sites-available/default
