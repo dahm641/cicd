@@ -281,5 +281,45 @@ sudo npm install pm2 -g
 # sudo service nginx restart
 # sudo service nginx enable
 ```
+#### Job 4 would be to create the database (this would actually be job 3) and would run before the deployment
 
+1. The set up is similar to deployment of the app.
+2. We would need to copy the files over from github to the server then run our provisioning script
+3. We would need to include the private IP into our app deployment script so it connects to it
+4. Below is the jenkins deployment code and provision script
+
+##### Script
+
+Jenkins:
+
+```bash
+# copy new code
+EC2_IP=public_ip_of_instance
+rsync -avz -e "ssh -o StrictHostKeyChecking=no" environment ubuntu@$EC2_IP:/home/ubuntu
+ssh -o StrictHostKeyChecking=no ubuntu@$EC2_IP <<EOF
+
+		
+	# install the required dependicies by running provision.sh
+    sudo chmod +x ~/environment/db/provision.sh
+	sudo bash ./environment/db/provision.sh
+```
+Provision.sh:
+
+```bash
+#!/bin/bash
+# be careful of these keys, they will go out of date
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv D68FA50FEA312927
+echo "deb https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list
+# install mongo db
+sudo apt-get install mongodb-org=3.2.20 -y
+sudo apt-get install -y mongodb-org=3.2.20 mongodb-org-server=3.2.20 mongodb-org-shell=3.2.20 mongodb-org-mongos=3.2.20 mongodb-org-tools=3.2.20
+sudo apt-get update -y
+sudo apt-get upgrade -y
+# change bind ip
+sudo sed -i 's/^\(\s*\)bindIp: .*/\1bindIp: 0.0.0.0/' /etc/mongod.conf
+# if mongo is is set up correctly these will be successful
+
+sudo systemctl restart mongod
+sudo systemctl enable mongod
+```
 

@@ -22,7 +22,15 @@
 ![img.png](img.png)
 6. Create an admin user
 ![img_1.png](img_1.png)
-
+7. install needed plugins by going to manage jenkins and then plugins 
+8. install node and ssh agent
+![img_5.png](img_5.png)
+![img_7.png](img_7.png)
+![img_4.png](img_4.png)
+9. go to tools and enable node.js installation
+![img_6.png](img_6.png)
+10. go to security and allow first time connections in git host key verification otherwise it wont connect
+![img_3.png](img_3.png)
 
 ## Creating Jobs
 
@@ -30,11 +38,12 @@
 2. We need to create 3 jobs:
    1. Job to test our app code from dev branch
    2. Job to merge dev branch to main branch after successful test
-   3. Job to deploy server if merge was successful
-   4. Job to deploy application to server if database setup successful
+   3. ***optional*** Job to deploy server if merge was successful
+   4. Job to deploy application to server if previous job was successful
+3. Click here for how to set up the jobs
 
 ![img_2.png](img_2.png)
-![img_3.png](img_3.png)
-![img_4.png](img_4.png)
-![img_5.png](img_5.png)
-![img_6.png](img_6.png)
+
+
+
+
