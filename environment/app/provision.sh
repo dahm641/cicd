@@ -34,8 +34,8 @@ curl -sL https://deb.nodesource.com/setup_17.x | sudo -E bash -
 sudo apt-get install nodejs -y
 
 # install pm2
-
-sudo npm install
+export DB_HOST=mongodb://172.31.38.216:27017/posts
+sudo -E npm install
 sudo npm install pm2 -g
 
 
