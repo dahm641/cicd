@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # install nodejs
-sudo apt-get install python-software-properties -y
-curl -sL https://deb.nodesource.com/setup_17.x | sudo -E bash -
-sudo apt-get install nodejs -y
+#sudo apt-get install python-software-properties -y
+#curl -sL https://deb.nodesource.com/setup_17.x | sudo -E bash -
+#sudo apt-get install nodejs -y
 
 # run update and upgrade
 #sudo apt-get update -y
@@ -34,16 +34,16 @@ sudo systemctl restart nginx
 sudo systemctl enable nginx
 
 # move to app folder
-cd app
+#cd app
 
 # install pm2
-export DB_HOST=mongodb://172.31.34.192:27017/posts
+#export DB_HOST=mongodb://172.31.34.192:27017/posts
 
-sudo -E npm install
-#sudo npm audit fix --force
-sudo npm install pm2 -g
-sudo pm2 kill
-sudo pm2 start app.js
+#sudo -E npm install
+# sudo npm audit fix --force
+# sudo npm install pm2 -g
+#sudo pm2 kill
+#sudo pm2 start app.js
 
 
 
