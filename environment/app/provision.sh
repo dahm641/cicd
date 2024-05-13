@@ -9,6 +9,8 @@
 #sudo apt-get update -y
 #sudo apt-get upgrade -y
 
+rm -rf /home/ubuntu/app/node_modules
+
 # install nginx
 sudo apt-get install nginx -y 
 
