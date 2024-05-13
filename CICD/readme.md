@@ -1,3 +1,27 @@
+- [Using Jenkins and GitHub](#using-jenkins-and-github)
+- [Creating a CI/CD pipeline](#creating-a-cicd-pipeline)
+  - [What is a CI/CD pipeline](#what-is-a-cicd-pipeline)
+  - [Why](#why)
+  - [How](#how)
+    - [CI](#ci)
+    - [CD](#cd)
+  - [Webhooks and nodes](#webhooks-and-nodes)
+  - [Where](#where)
+  - [When](#when)
+  - [Create our testing job (CI Pipeline)](#create-our-testing-job-ci-pipeline)
+    - [Adding webhook from GitHub](#adding-webhook-from-github)
+  - [CD with Jenkins](#cd-with-jenkins)
+    - [Step 1](#step-1)
+      - [Job 1](#job-1)
+      - [Job 2](#job-2)
+    - [Step 2](#step-2)
+    - [Step 3 (Deployment)](#step-3-deployment)
+      - [Job 3](#job-3)
+      - [Job 4 would be to create the database (this would actually be job 3) and would run before the deployment](#job-4-would-be-to-create-the-database-this-would-actually-be-job-3-and-would-run-before-the-deployment)
+        - [Script](#script)
+
+
+
 # Using Jenkins and GitHub
 
 # Creating a CI/CD pipeline

@@ -40,7 +40,7 @@
    2. Job to merge dev branch to main branch after successful test
    3. ***optional*** Job to deploy server if merge was successful
    4. Job to deploy application to server if previous job was successful
-3. Click here for how to set up the jobs
+3. [Click here](https://github.com/dahm641/cicd/blob/main/CICD/readme.md) for how to set up the jobs
 
 ![img_2.png](img_2.png)
 
