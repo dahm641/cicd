@@ -35,7 +35,7 @@ sudo systemctl enable nginx
 cd app
 
 # install pm2
-export DB_HOST=mongodb://54.171.140.180:27017/posts
+export DB_HOST=mongodb://172.31.34.192:27017/posts
 
 sudo -E npm install
 #sudo npm audit fix --force
