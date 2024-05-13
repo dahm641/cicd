@@ -19,18 +19,18 @@
 4. You will be asked for admin password found on the server itself so SSH in and find it here <br>
    - `sudo cat /var/lib/jenkins/secrets/initialAdminPassword`
 5. Once you have put in the psasword you can install packages (continue with suggested for now)
-![img.png](img.png)
-6. Create an admin user
-![img_1.png](img_1.png)
+![img.png](img.png) <br><br>
+6. Create an admin user <br><br>
+![img_1.png](img_1.png) <br><br>
 7. install needed plugins by going to manage jenkins and then plugins 
-8. install node and ssh agent
-![img_5.png](img_5.png)
-![img_7.png](img_7.png)
-![img_4.png](img_4.png)
-9. go to tools and enable node.js installation
-![img_6.png](img_6.png)
-10. go to security and allow first time connections in git host key verification otherwise it wont connect
-![img_3.png](img_3.png)
+8. install node and ssh agent <br><br>
+![img_5.png](img_5.png) <br><br>
+![img_7.png](img_7.png) <br><br>
+![img_4.png](img_4.png) <br><br>
+9. go to tools and enable node.js installation <br><br>
+![img_6.png](img_6.png) <br><br>
+10. go to security and allow first time connections in git host key verification otherwise it wont connect <br><br>
+![img_3.png](img_3.png) <br><br>
 
 ## Creating Jobs
 
