@@ -35,6 +35,7 @@ sudo apt-get install nodejs -y
 
 # install pm2
 export DB_HOST=mongodb://54.171.140.180:27017/posts
+sudo node seeds/seed.js
 sudo -E npm install
 sudo npm install pm2 -g
 
