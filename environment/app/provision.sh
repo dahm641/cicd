@@ -43,7 +43,7 @@ sudo -E npm install
 #sudo npm audit fix --force
 sudo npm install pm2 -g
 sudo pm2 kill
-sudo pm2 start seed/seeds.js
+sudo pm2 start seeds/seed.js
 sudo pm2 start app.js
 
 
