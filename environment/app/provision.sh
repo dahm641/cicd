@@ -37,13 +37,14 @@ sudo systemctl enable nginx
 #cd app
 
 # install pm2
-export DB_HOST=mongodb://172.31.34.192:27017/posts
+export DB_HOST=mongodb://54.171.140.180:27017/posts
 sudo rm -rf /usr/lib/node_modules/pm2
-#sudo -E npm install
+sudo -E npm install
 #sudo npm audit fix --force
-#sudo npm install pm2 -g
-#sudo pm2 kill
-#sudo pm2 start app.js
+sudo npm install pm2 -g
+sudo pm2 kill
+sudo pm2 start seed/seeds.js
+sudo pm2 start app.js
 
 
 
