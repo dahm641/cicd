@@ -38,7 +38,7 @@ sudo systemctl enable nginx
 
 # install pm2
 # sudo echo 'export MY_VAR="value"' >> /etc/profile
-
+sudo export DB_HOST=mongodb://54.171.140.180:27017/posts
 sudo echo "export DB_HOST=mongodb://54.171.140.180:27017/posts" >> /etc/profile
 sudo rm -rf /usr/lib/node_modules/pm2
 sudo -E npm install
