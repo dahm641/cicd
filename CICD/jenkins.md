@@ -30,6 +30,11 @@
 2. We need to create 3 jobs:
    1. Job to test our app code from dev branch
    2. Job to merge dev branch to main branch after successful test
-   3. Job to deploy application to server if merge was successful
+   3. Job to deploy server if merge was successful
+   4. Job to deploy application to server if database setup successful
 
 ![img_2.png](img_2.png)
+![img_3.png](img_3.png)
+![img_4.png](img_4.png)
+![img_5.png](img_5.png)
+![img_6.png](img_6.png)
