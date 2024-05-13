@@ -41,9 +41,9 @@ export DB_HOST=mongodb://172.31.34.192:27017/posts
 
 sudo -E npm install
 #sudo npm audit fix --force
-sudo -E npm install pm2 -g
+sudo npm install pm2 -g
 sudo pm2 kill
-sudp pm2 start app.js
+sudo pm2 start app.js
 
 
 
