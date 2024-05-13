@@ -37,9 +37,9 @@ cd app
 # install pm2
 export DB_HOST=mongodb://54.171.140.180:27017/posts
 
-sudo -E npm install
-sudo npm audit fix --force
-sudo -E npm install pm2 -g
+#sudo -E npm install
+#sudo npm audit fix --force
+#sudo -E npm install pm2 -g
 
 
 
