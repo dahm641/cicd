@@ -15,6 +15,6 @@ sudo apt-get install -y mongodb-org=3.2.20 mongodb-org-server=3.2.20 mongodb-org
 # change bind ip
 sudo sed -i 's/^\(\s*\)bindIp: .*/\1bindIp: 0.0.0.0/' /etc/mongod.conf
 # if mongo is is set up correctly these will be successful
-sudo systemctl stop mongod
-sudo systemctl start mongod
+
+sudo systemctl restart mongod
 sudo systemctl enable mongod
