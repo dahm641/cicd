@@ -230,26 +230,20 @@ You write your script in the execute shell in Jenkins
 
 ```
 # copy new code
-# set ip variable once to use in script
-EC2_IP=3.254.211.13
+EC2_IP=3.254.78.64
 rsync -avz -e "ssh -o StrictHostKeyChecking=no" app ubuntu@$EC2_IP:/home/ubuntu
 rsync -avz -e "ssh -o StrictHostKeyChecking=no" environment ubuntu@$EC2_IP:/home/ubuntu
 
 # by pass key checking step input
 # ssh into ec2
 ssh -o StrictHostKeyChecking=no ubuntu@$EC2_IP <<EOF
-
-		
+	
+	
+	#export DB_HOST=mongodb://172.31.34.192:27017/posts	
 	# install the required dependicies by running provision.sh
     sudo chmod +x ~/environment/app/provision.sh
 	sudo bash ./environment/app/provision.sh
-	
-	# navigate to app folder
-	cd app
-
-	# start the app in the background
-	pm2 kill
-	pm2 start app.js
+    
 EOF
 ```
 
@@ -257,15 +251,18 @@ Provisions script:
 
 ```bash
 #!/bin/bash
-# run update and upgrade
-sudo apt-get update -y
-sudo apt-get upgrade -y
+# move to app folder
+cd app
+# install nodejs
+
+#sudo apt-get install python-software-properties -y
+#curl -sL https://deb.nodesource.com/setup_17.x | sudo -E bash -
+#sudo apt-get install nodejs -y
+
 
 # install nginx
 sudo apt-get install nginx -y 
 
-# move to app folder
-cd app
 
 # Update the sources list
 sudo apt-get update -y
@@ -279,31 +276,30 @@ sudo apt-get install git -y
 
 # Reverse proxy
 sudo sed -i '51s/.*/\t        proxy_pass http:\/\/localhost:3000;/' /etc/nginx/sites-available/default
+
+# Restart nginx for changes to take place
  
 sudo systemctl restart nginx
 
 # visit public ip and see if its running
 sudo systemctl enable nginx
 
-# install nodejs
-sudo apt-get install python-software-properties -y
-curl -sL https://deb.nodesource.com/setup_17.x | sudo -E bash -
-sudo apt-get install nodejs -y
 
-# install pm2
-sudo npm install
+# Append the variable to /etc/environment
+echo "DB_HOST=mongodb://54.171.140.180:27017/posts" | sudo tee -a /etc/environment >/dev/null
+
+# Source /etc/environment to apply changes to the current session
+source /etc/environment
+
+# remove any instances of pm2 that could cause error
+sudo rm -rf /usr/lib/node_modules/pm2
+
+# install npm and pm2 and start the app 
+sudo -E npm install
 sudo npm install pm2 -g
-
-
-#sudo apt-get install nginx -y
-
-# remove the old file and add our one
-#sudo rm /etc/nginx/sites-available/default
-#sudo cp /home/ubuntu/sre_jenkins_cicd/environment/app/nginx.default /etc/nginx/sites-available/default
-
-# finally, restart the nginx service so the new config takes hold
-# sudo service nginx restart
-# sudo service nginx enable
+sudo pm2 kill
+sudo pm2 start seeds/seed.js
+sudo pm2 start app.js
 ```
 #### Job 4 would be to create the database (this would actually be job 3) and would run before the deployment
 
@@ -334,16 +330,20 @@ Provision.sh:
 # be careful of these keys, they will go out of date
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv D68FA50FEA312927
 echo "deb https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list
+
 # install mongo db
+
 sudo apt-get install mongodb-org=3.2.20 -y
 sudo apt-get install -y mongodb-org=3.2.20 mongodb-org-server=3.2.20 mongodb-org-shell=3.2.20 mongodb-org-mongos=3.2.20 mongodb-org-tools=3.2.20
 sudo apt-get update -y
 sudo apt-get upgrade -y
+
 # change bind ip
 sudo sed -i 's/^\(\s*\)bindIp: .*/\1bindIp: 0.0.0.0/' /etc/mongod.conf
 # if mongo is is set up correctly these will be successful
 
-sudo systemctl restart mongod
+# enable mongo db
 sudo systemctl enable mongod
+sudo systemctl restart mongod
 ```
 
