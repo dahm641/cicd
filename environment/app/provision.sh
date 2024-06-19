@@ -3,9 +3,9 @@
 cd app
 # install nodejs
 
-#sudo apt-get install python-software-properties -y
-#curl -sL https://deb.nodesource.com/setup_17.x | sudo -E bash -
-#sudo apt-get install nodejs -y
+sudo apt-get install python-software-properties -y
+curl -sL https://deb.nodesource.com/setup_17.x | sudo -E bash -
+sudo apt-get install nodejs -y
 
 
 # install nginx
@@ -34,7 +34,7 @@ sudo systemctl enable nginx
 
 
 # Append the variable to /etc/environment
-echo "DB_HOST=mongodb://52.213.137.14:27017/posts" | sudo tee -a /etc/environment >/dev/null
+echo "DB_HOST=mongodb://10.0.4.190:27017/posts" | sudo tee -a /etc/environment >/dev/null
 
 # Source /etc/environment to apply changes to the current session
 source /etc/environment
