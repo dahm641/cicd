@@ -48,6 +48,7 @@ sudo rm -rf /usr/lib/node_modules/pm2
 # install npm and pm2 and start the app 
 sudo -E npm install
 sudo npm install pm2 -g
+sudo pkill -f pm2
 sudo pm2 kill
 sudo pm2 start seeds/seed.js
 sudo pm2 start app.js
