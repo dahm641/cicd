@@ -65,7 +65,6 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const Post = require('./models/post');
-const faker = require('faker');
 
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
@@ -79,33 +78,9 @@ async function connectToDatabase() {
         useUnifiedTopology: true,
       });
       console.log('Database connected');
-      await seedDatabase(); // Call the seed function if needed
     } catch (err) {
       console.error('Database connection error:', err);
     }
-  }
-}
-
-// Seed the database
-async function seedDatabase() {
-  try {
-    await Post.deleteMany({});
-    console.log('Database Cleared');
-
-    const num_records = 100;
-    const posts = [];
-
-    for (let i = 0; i < num_records; i++) {
-      posts.push({
-        title: faker.random.words(),
-        body: faker.lorem.paragraphs(),
-      });
-    }
-
-    await Post.insertMany(posts);
-    console.log('Database Seeded');
-  } catch (err) {
-    console.error('Error seeding database:', err);
   }
 }
 

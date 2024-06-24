@@ -26,22 +26,29 @@
 //   }
 // }
 
-const Post = require('../models/post');
 const mongoose = require('mongoose');
+const Post = require('./models/post');
 const faker = require('faker');
 
-if (process.env.DB_HOST) {
-  mongoose.connect(process.env.DB_HOST, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }).then(() => {
-    console.log('Database connected');
-    seedDatabase();
-  }).catch(err => {
-    console.error('Database connection error:', err);
-  });
+// Connect to the database
+async function connectToDatabase() {
+  if (process.env.DB_HOST) {
+    try {
+      await mongoose.connect(process.env.DB_HOST, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      });
+      console.log('Database connected');
+      await seedDatabase(); // Call the seed function if needed
+    } catch (err) {
+      console.error('Database connection error:', err);
+    } finally {
+      mongoose.connection.close();
+    }
+  }
 }
 
+// Seed the database
 async function seedDatabase() {
   try {
     await Post.deleteMany({});
@@ -58,10 +65,10 @@ async function seedDatabase() {
     }
 
     await Post.insertMany(posts);
-    console.log("Database Seeded");
+    console.log('Database Seeded');
   } catch (err) {
     console.error('Error seeding database:', err);
-  } finally {
-    mongoose.connection.close();
   }
 }
+
+connectToDatabase();
