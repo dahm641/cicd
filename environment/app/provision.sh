@@ -37,7 +37,7 @@ sudo systemctl enable nginx
 
 
 # Append the variable to /etc/environment
-echo "DB_HOST=mongodb://10.0.2.60:27017/posts" | sudo tee -a /etc/environment >/dev/null
+# echo "DB_HOST=mongodb://10.0.2.60:27017/posts" | sudo tee -a /etc/environment >/dev/null
 
 # Source /etc/environment to apply changes to the current session
 source /etc/environment
