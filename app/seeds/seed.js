@@ -27,7 +27,7 @@
 // }
 
 const mongoose = require('mongoose');
-const Post = require('./models/post');
+const Post = require('../models/post');
 const faker = require('faker');
 
 // Connect to the database
